@@ -23,10 +23,15 @@ Plug 'tpope/vim-unimpaired'
 Plug 'ryanoasis/vim-devicons'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
+Plug 'maximbaz/lightline-ale'
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'sbdchd/neoformat'
 Plug 'neomake/neomake'
+Plug 'rhysd/vim-healthcheck'
+Plug 'dense-analysis/ale'
+Plug 'rhysd/vim-lsp-ale'
+Plug 'alvan/vim-closetag'
 call plug#end()
 
 set autoread
@@ -53,6 +58,8 @@ set laststatus=2
 set signcolumn=yes
 set updatetime=300
 set showtabline=2
+set autoindent
+set smartindent
 
 if has('persistent_undo')
   let target_path = expand('~/.vim/undodir')
@@ -65,31 +72,39 @@ if has('persistent_undo')
   set undofile
 endif
 
+let $ESLINT_D_PPID = getpid()
+let g:ale_fix_on_save = 1
+let g:ale_javascript_eslint_executable = 'eslint_d'
+let g:ale_javascript_eslint_use_global = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:asyncomplete_auto_popup = 0
 let g:tokyonight_style = 'storm'
-let g:python_highlight_all = 1
 let g:tokyonight_enable_italic = 1
+let g:lsp_semantic_enabled = 1
+let g:python_highlight_all = 1
 let g:neoformat_try_node_exe = 1
-let g:neomake_python_enabled_makers = ['ruff', 'ty']
-let g:neomake_ruff_maker = {
-    \ 'exe': 'ruff',
-    \ 'args': ['check', '--output-format', 'concise', '%'],
-    \ 'errorformat': '%f:%l:%c: %m',
-    \ }
-let g:neomake_ty_maker = {
-    \ 'exe': 'ty',
-    \ 'args': ['check', '--output-format', 'concise', '%'],
-    \ 'errorformat': '%f:%l:%c: %m',
-    \ }
 let g:gitgutter_sign_priority = 0
+let g:closetag_emptyTags_caseSensitive = 1
+let g:closetag_filetypes = 'html,xhtml,phtml,php,javascriptreact,typescriptreact'
+let g:closetag_enable_react_fragment = 1
 let g:lightline#bufferline#enable_devicons = 1
 let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#filter_by_tabpage = 1
+let g:lightline#ale#indicator_checking = "\uf110"
+let g:lightline#ale#indicator_infos = "\uf129"
+let g:lightline#ale#indicator_warnings = "\uf071"
+let g:lightline#ale#indicator_errors = "\uf05e"
+let g:lightline#ale#indicator_ok = "\uf00c"
 let g:lightline = {
-    \ 'colorscheme' : 'tokyonight',
+    \ 'colorscheme': 'tokyonight',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'gitbranch' ],
-    \             [ 'readonly', 'filename', 'modified' ] ]
+    \             [ 'readonly', 'filename', 'modified' ] ],
+    \   'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
+    \            [ 'lineinfo' ],
+	  \            [ 'percent' ],
+	  \            [ 'fileformat', 'fileencoding', 'filetype'] ]
     \ },
     \ 'component': {
     \   'lineinfo': ' %3l:%-2v',
@@ -100,16 +115,31 @@ let g:lightline = {
     \ },
     \ 'component_expand': {
     \   'buffers': 'lightline#bufferline#buffers',
-    \   'tabs': 'lightline#tabs'
+    \   'tabs': 'lightline#tabs',
+    \   'linter_checking': 'lightline#ale#checking',
+    \   'linter_infos': 'lightline#ale#infos',
+    \   'linter_warnings': 'lightline#ale#warnings',
+    \   'linter_errors': 'lightline#ale#errors',
+    \   'linter_ok': 'lightline#ale#ok',
     \ },
     \ 'component_type': {
     \   'tabs': 'tabsel',
     \   'buffers': 'tabsel',
+    \   'linter_checking': 'right',
+    \   'linter_infos': 'right',
+    \   'linter_warnings': 'warning',
+    \   'linter_errors': 'error',
+    \   'linter_ok': 'right',
     \ },
     \ 'component_function': {
     \   'readonly': 'LightlineReadonly',
     \   'gitbranch': 'LightlineFugitive'
     \ }
+    \ }
+let g:ale_fixers = {
+    \ 'javascript': ['eslint'],
+    \ 'typescript': ['eslint'],
+    \ 'typescriptreact': ['eslint'],
     \ }
 
 function! LightlineReadonly()
@@ -148,7 +178,6 @@ augroup fmt
   au!
   autocmd BufWritePre * silent! undojoin | Neoformat
 augroup END
-call neomake#configure#automake('w')
 
 colorscheme tokyonight
 
