@@ -74,13 +74,15 @@ endif
 
 let $ESLINT_D_PPID = getpid()
 let g:ale_fix_on_save = 1
+let g:ale_set_loclist = 0
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
 let g:ale_javascript_eslint_executable = 'eslint_d'
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:asyncomplete_auto_popup = 0
 let g:tokyonight_style = 'storm'
 let g:tokyonight_enable_italic = 1
-let g:lsp_semantic_enabled = 1
 let g:python_highlight_all = 1
 let g:neoformat_try_node_exe = 1
 let g:gitgutter_sign_priority = 0
@@ -107,7 +109,7 @@ let g:lightline = {
 	  \            [ 'fileformat', 'fileencoding', 'filetype'] ]
     \ },
     \ 'component': {
-    \   'lineinfo': ' %3l:%-2v',
+    \   'lineinfo': ' %3l:%-2v%<',
     \ },
     \ 'tabline': {
     \   'left': [ [ 'buffers' ] ],
@@ -133,7 +135,9 @@ let g:lightline = {
     \ },
     \ 'component_function': {
     \   'readonly': 'LightlineReadonly',
-    \   'gitbranch': 'LightlineFugitive'
+    \   'gitbranch': 'LightlineFugitive',
+    \   'fileformat': 'LightlineFileformat',
+    \   'filetype': 'LightlineFiletype',
     \ }
     \ }
 let g:ale_fixers = {
@@ -141,6 +145,8 @@ let g:ale_fixers = {
     \ 'typescript': ['eslint'],
     \ 'typescriptreact': ['eslint'],
     \ }
+
+let test#javascript#jest#executable = 'node --inspect node_modules/.bin/jest'
 
 function! LightlineReadonly()
   return &readonly ? '' : ''
@@ -152,6 +158,14 @@ function! LightlineFugitive()
     return branch !=# '' ? ' ' . branch : ''
   endif
   return ''
+endfunction
+
+function! LightlineFileformat()
+  return winwidth(0) > 120 ? &fileformat : ''
+endfunction
+
+function! LightlineFiletype()
+  return winwidth(0) > 120 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
 endfunction
 
 function! s:on_lsp_buffer_enabled() abort
