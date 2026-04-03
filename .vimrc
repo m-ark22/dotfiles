@@ -85,6 +85,11 @@ let g:tokyonight_style = 'storm'
 let g:tokyonight_enable_italic = 1
 let g:python_highlight_all = 1
 let g:neoformat_try_node_exe = 1
+let g:neomake_tsc_exe = 'node_modules/.bin/tsc'
+let g:neomake_eslint_exe = 'node_modules/.bin/eslint'
+let g:neomake_eslint_cwd = ''
+let g:neomake_eslint_args = ['--format=json', '--ext=ts,tsx,js,jsx', '.']
+let g:neomake_enabled_makers = ['makeprg', 'eslint']
 let g:gitgutter_sign_priority = 0
 let g:closetag_emptyTags_caseSensitive = 1
 let g:closetag_filetypes = 'html,xhtml,phtml,php,javascriptreact,typescriptreact'
@@ -105,8 +110,8 @@ let g:lightline = {
     \             [ 'readonly', 'filename', 'modified' ] ],
     \   'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
     \            [ 'lineinfo' ],
-	  \            [ 'percent' ],
-	  \            [ 'fileformat', 'fileencoding', 'filetype'] ]
+    \            [ 'percent' ],
+    \            [ 'fileformat', 'fileencoding', 'filetype'] ]
     \ },
     \ 'component': {
     \   'lineinfo': ' %3l:%-2v%<',
@@ -169,23 +174,23 @@ function! LightlineFiletype()
 endfunction
 
 function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gs <plug>(lsp-document-symbol-search)
-    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-    nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
-    nmap <buffer> <leader>rn <plug>(lsp-rename)
-    nmap <buffer> <leader>ca <plug>(lsp-code-action)
+  setlocal omnifunc=lsp#complete
+  if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+  nmap <buffer> gd <plug>(lsp-definition)
+  nmap <buffer> gs <plug>(lsp-document-symbol-search)
+  nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+  nmap <buffer> gr <plug>(lsp-references)
+  nmap <buffer> gi <plug>(lsp-implementation)
+  nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+  nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+  nmap <buffer> K <plug>(lsp-hover)
+  nmap <buffer> <leader>rn <plug>(lsp-rename)
+  nmap <buffer> <leader>ca <plug>(lsp-code-action)
 endfunction
 
 augroup lsp_install
-    au!
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+  au!
+  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
 augroup fmt
