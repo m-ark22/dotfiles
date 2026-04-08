@@ -88,8 +88,12 @@ let g:neoformat_try_node_exe = 1
 let g:neomake_tsc_exe = 'node_modules/.bin/tsc'
 let g:neomake_eslint_exe = 'node_modules/.bin/eslint'
 let g:neomake_eslint_cwd = ''
-let g:neomake_eslint_args = ['--format=json', '--ext=ts,tsx,js,jsx', '.']
+let g:neomake_eslint_args = ['--format=json', '--ext=ts,tsx,js,jsx', '--no-error-on-unmatched-pattern', 'src', 'app']
 let g:neomake_enabled_makers = ['makeprg', 'eslint']
+let g:neomake_typescript_enabled_makers = ['tsc', 'eslint']
+let g:neomake_typescriptreact_enabled_makers = g:neomake_typescript_enabled_makers
+let g:lsp_settings_filetype_typescript = ['typescript-language-server', 'eslint-language-server']
+let g:lsp_settings_filetype_typescriptreact = g:lsp_settings_filetype_typescript
 let g:gitgutter_sign_priority = 0
 let g:closetag_emptyTags_caseSensitive = 1
 let g:closetag_filetypes = 'html,xhtml,phtml,php,javascriptreact,typescriptreact'
@@ -97,11 +101,11 @@ let g:closetag_enable_react_fragment = 1
 let g:lightline#bufferline#enable_devicons = 1
 let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#filter_by_tabpage = 1
-let g:lightline#ale#indicator_checking = "\uf110"
-let g:lightline#ale#indicator_infos = "\uf129"
-let g:lightline#ale#indicator_warnings = "\uf071"
-let g:lightline#ale#indicator_errors = "\uf05e"
-let g:lightline#ale#indicator_ok = "\uf00c"
+let g:lightline#ale#indicator_checking = "\uf110\u00A0"
+let g:lightline#ale#indicator_infos = "\uf129\u00A0"
+let g:lightline#ale#indicator_warnings = "\uf071\u00A0"
+let g:lightline#ale#indicator_errors = "\uf05e\u00A0"
+let g:lightline#ale#indicator_ok = "\uf00c\u00A0"
 let g:lightline = {
     \ 'colorscheme': 'tokyonight',
     \ 'active': {
