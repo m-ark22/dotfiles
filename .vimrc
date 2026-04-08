@@ -90,6 +90,10 @@ let g:neomake_eslint_exe = 'node_modules/.bin/eslint'
 let g:neomake_eslint_cwd = ''
 let g:neomake_eslint_args = ['--format=json', '--ext=ts,tsx,js,jsx', '.']
 let g:neomake_enabled_makers = ['makeprg', 'eslint']
+let g:neomake_typescript_enabled_makers = ['tsc', 'eslint']
+let g:neomake_typescriptreact_enabled_makers = g:neomake_typescript_enabled_makers
+let g:lsp_settings_filetype_typescript = ['typescript-language-server', 'eslint-language-server']
+let g:lsp_settings_filetype_typescriptreact = g:lsp_settings_filetype_typescript
 let g:gitgutter_sign_priority = 0
 let g:closetag_emptyTags_caseSensitive = 1
 let g:closetag_filetypes = 'html,xhtml,phtml,php,javascriptreact,typescriptreact'
