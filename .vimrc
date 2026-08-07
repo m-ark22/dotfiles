@@ -61,7 +61,6 @@ set showtabline=2
 set autoindent
 set smartindent
 set background=dark
-set omnifunc=lsp#complete
 
 if has('persistent_undo')
   let target_path = expand('~/.vim/undodir')
@@ -180,6 +179,7 @@ function! LightlineFiletype()
 endfunction
 
 function! s:on_lsp_buffer_enabled() abort
+  setlocal omnifunc=lsp#complete
   if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
   nmap <buffer> gd <plug>(lsp-definition)
   nmap <buffer> gs <plug>(lsp-document-symbol-search)
