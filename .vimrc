@@ -25,13 +25,12 @@ Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'maximbaz/lightline-ale'
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
-Plug 'ghifarit53/tokyonight-vim'
+Plug 'jacoborus/tender.vim'
 Plug 'sbdchd/neoformat'
 Plug 'neomake/neomake'
 Plug 'rhysd/vim-healthcheck'
 Plug 'dense-analysis/ale'
 Plug 'rhysd/vim-lsp-ale'
-Plug 'alvan/vim-closetag'
 call plug#end()
 
 set autoread
@@ -82,8 +81,6 @@ let g:ale_javascript_eslint_executable = 'eslint_d'
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:asyncomplete_auto_popup = 0
-let g:tokyonight_style = 'storm'
-let g:tokyonight_enable_italic = 1
 let g:python_highlight_all = 1
 let g:neoformat_try_node_exe = 1
 let g:neomake_tsc_exe = 'node_modules/.bin/tsc'
@@ -96,9 +93,6 @@ let g:neomake_typescriptreact_enabled_makers = g:neomake_typescript_enabled_make
 let g:lsp_settings_filetype_typescript = ['typescript-language-server', 'eslint-language-server']
 let g:lsp_settings_filetype_typescriptreact = g:lsp_settings_filetype_typescript
 let g:gitgutter_sign_priority = 0
-let g:closetag_emptyTags_caseSensitive = 1
-let g:closetag_filetypes = 'html,xhtml,phtml,php,javascriptreact,typescriptreact'
-let g:closetag_enable_react_fragment = 1
 let g:lightline#bufferline#enable_devicons = 1
 let g:lightline#bufferline#show_number = 1
 let g:lightline#bufferline#filter_by_tabpage = 1
@@ -108,7 +102,7 @@ let g:lightline#ale#indicator_warnings = "\uf071\u00A0"
 let g:lightline#ale#indicator_errors = "\uf05e\u00A0"
 let g:lightline#ale#indicator_ok = "\uf00c\u00A0"
 let g:lightline = {
-    \ 'colorscheme': 'tokyonight',
+    \ 'colorscheme': 'tender',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'gitbranch' ],
@@ -203,7 +197,7 @@ augroup fmt
   autocmd BufWritePre * silent! undojoin | Neoformat
 augroup END
 
-colorscheme tokyonight
+colorscheme tender
 
 nmap <silent> <Leader>dg <Plug>(doge-generate)
 
