@@ -25,12 +25,12 @@ Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'maximbaz/lightline-ale'
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
-Plug 'jacoborus/tender.vim'
 Plug 'sbdchd/neoformat'
 Plug 'neomake/neomake'
 Plug 'rhysd/vim-healthcheck'
 Plug 'dense-analysis/ale'
 Plug 'rhysd/vim-lsp-ale'
+Plug 'joshdick/onedark.vim'
 call plug#end()
 
 set autoread
@@ -59,7 +59,6 @@ set updatetime=300
 set showtabline=2
 set autoindent
 set smartindent
-set background=dark
 
 if has('persistent_undo')
   let target_path = expand('~/.vim/undodir')
@@ -73,6 +72,8 @@ if has('persistent_undo')
 endif
 
 let $ESLINT_D_PPID = getpid()
+let g:onedark_hide_endofbuffer = 1
+let g:onedark_terminal_italics = 1
 let g:ale_fix_on_save = 1
 let g:ale_set_loclist = 0
 let g:ale_sign_error = '>>'
@@ -102,7 +103,7 @@ let g:lightline#ale#indicator_warnings = "\uf071\u00A0"
 let g:lightline#ale#indicator_errors = "\uf05e\u00A0"
 let g:lightline#ale#indicator_ok = "\uf00c\u00A0"
 let g:lightline = {
-    \ 'colorscheme': 'tender',
+    \ 'colorscheme': 'one',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'gitbranch' ],
@@ -197,7 +198,7 @@ augroup fmt
   autocmd BufWritePre * silent! undojoin | Neoformat
 augroup END
 
-colorscheme tender
+colorscheme ondark
 
 nmap <silent> <Leader>dg <Plug>(doge-generate)
 
